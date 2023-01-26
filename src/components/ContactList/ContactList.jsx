@@ -1,35 +1,21 @@
 import css from "components/ContactList/ContactList.module.css";
-import propTypes from "prop-types";
-const ContactList=({visibleContacts , deleteNumber})=>{
+import PropTypes from "prop-types";
+
+const ContactList=({contacts ,deleteContact})=>{
+	const contactList=contacts.map(({id,name,number})=>
+	<li className={css.contactItem} key={id}>
+	<span className={css.contactSpan}>{name}</span><span className={css.contactSpam}>{number}</span> 
+	<button className={css.contactButton} type="button" onClick={()=>deleteContact(id)}>delete</button></li>)
   return(
-    <ul className={css.contactsList}>
-			{visibleContacts.map(({ id, name, number }) => {
-				return (
-	<li key={id} className={css.contactsItem}>
-		<span className={css.name}>{name}</span>
-			<span className={css.number}>{number}</span>
-			<button
-				type="button"
-			 onClick={() => {deleteNumber(id)}}
-			 className={css.button}
-			>
-				Delete
-			</button>
-	</li>
-					
-				);
-			})}
-		</ul>
+	  <ol className={css.contactList}> {contactList}</ol>
   )
 }
-ContactList.propTypes = {
-	visibleContacts: propTypes.arrayOf(
-		propTypes.shape({
-			id: propTypes.string.isRequired,
-			name: propTypes.string.isRequired,
-			number: propTypes.string.isRequired,
-		}).isRequired
-	).isRequired,
-	deleteNumber: propTypes.func.isRequired,
-};
+ContactList.prototype={
+  deleteContact:PropTypes.func.isRequired,
+	contacts:PropTypes.arrayOf(PropTypes.shape({
+		id:PropTypes.string.isRequired ,
+		name:PropTypes.string.isRequired,
+		number:PropTypes.string.isRequired,
+	})),
+ }
 export default ContactList
